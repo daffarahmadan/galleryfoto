@@ -1,6 +1,7 @@
 <!-- Meneruskan variabel $foto dari controller ke tampilan Blade -->
 @php
     $foto = App\Models\Foto::all(); // Anda dapat menyesuaikan namespace dan model yang sesuai
+    $foto = App\Models\Foto::orderBy('created_at', 'desc')->get();
 @endphp
 
 <!DOCTYPE html>
@@ -16,6 +17,10 @@
         height: 200px; /* Atur tinggi sesuai kebutuhan */
         object-fit: cover;
     }
+    .card:hover {
+        transform: scale(1.1); /* Ubah skala gambar */
+        transition: transform 0.3s ease; /* Tambahkan transisi */
+    }
 </style>
 </head>
 <body>
@@ -23,7 +28,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Gallery</a>
+            <a class="navbar-brand" href="{{ route('home') }}">DREAMPHOTO</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -59,11 +64,15 @@
                             @endif
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <!-- Tombol Like -->
-                            <form action="{{ route('likefoto.store') }}" method="post">
+                            <!-- Form untuk menambahkan like -->
+                            <form action="{{ route('likefoto.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="foto_id" value="{{ $foto->id }}">
-                                <button type="submit" class="btn btn-primary btn-sm">Like {{ $foto->likeCount() }}</button>
+                                <!-- Tombol Like -->
+                                <button type="submit" class="btn btn-transparent btn-like btn-lg">
+                                    <ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>
+                                    <p class="card-text" style="font-size: 10px;">{{ $foto->likeCount() }}</p>
+                                </button>
                             </form>
                             <!-- Tombol Komentar -->
                             <button type="button" class="btn btn-secondary btn-sm ml-auto" data-toggle="modal" data-target="#modal{{ $foto->id }}">
@@ -82,33 +91,32 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <!-- Judul modal -->
-                                <h5 class="modal-title" id="modal{{ $foto->id }}Label">{{ $foto->judul }}</h5>
+                                <!-- username user -->
+                                @if($foto->user && $foto->user->username)
+                                    <h5 class="card-text">{{ $foto->user->username }}</h5>
+                                @endif
                                 <!-- Tombol untuk menutup modal -->
                                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <!-- Tampilkan gambar -->
                                 <img id="image-{{ $foto->id }}" src="{{ Storage::url($foto->lokasifile) }}" class="w-100 rounded" alt="{{ $foto->judul }}">
-                                
-                                <!-- Form untuk menambahkan komentar baru -->
-                                <form action="{{ route('komentarfoto.store') }}" method="POST">
+                                <!-- Judul modal -->
+                                <h5 class="modal-title mt-4" id="modal{{ $foto->id }}Label">{{ $foto->judul }}</h5>
+                                <!-- Form untuk menambahkan like -->
+                                <form action="{{ route('likefoto.store') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="fotoid" value="{{ $foto->id }}">
-                                    <div class="mb-3">
-                                        <label for="isikomentar" class="form-label">Komentar:</label>
-                                        <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
-                                        <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                                    <input type="hidden" name="foto_id" value="{{ $foto->id }}">
+                                    <!-- Tombol Like -->
+                                    <button type="submit" class="btn btn-transparent btn-like btn-lg">
+                                        <ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>
+                                        <p class="card-text">{{ $foto->likeCount() }}</p>
+                                    </button>
                                 </form>
-                                
+                                 
                                 <!-- Daftar komentar yang telah disimpan -->
                                 <div class="mt-3">
-                                @foreach ($foto->komentarfoto as $komentar)
+                                    @foreach ($foto->komentarfoto as $komentar)
                                         <!-- Tampilkan komentar -->
                                         <div class="comment-container border rounded p-3 mb-3">
                                             <div class="d-flex justify-content-between">
@@ -124,8 +132,6 @@
                                                         ...
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $komentar->id }}">
-                                                        <!-- Tautan untuk mengedit komentar -->
-                                                        <a class="dropdown-item" href="{{ route('komentarfoto.edit', $komentar->id) }}">Edit</a>
                                                         <!-- Form untuk menghapus komentar -->
                                                         <form action="{{ route('komentarfoto.destroy', $komentar->id) }}" method="POST">
                                                             @csrf
@@ -139,7 +145,22 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                
+
+                                <!-- Form untuk menambahkan komentar baru -->
+                                <form action="{{ route('komentarfoto.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="fotoid" value="{{ $foto->id }}">
+                                    <div class="mb-3">
+                                        <label for="isikomentar" class="form-label">Komentar:</label>
+                                        <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
+                                        <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                                </form>
+
                                 <!-- Pesan konfirmasi setelah mengirim komentar -->
                                 @if(session('success'))
                                 <div class="alert alert-success mt-3" role="alert">
@@ -155,10 +176,22 @@
         </div>
     </div>
 
+    <footer class="footer py-3 mt-auto">
+        <div class="container text-center">
+            <span class="text-muted">DREAMLINES Company</span>
+        </div>
+    </footer>
+
     <!-- Bootstrap core JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <!-- template icon -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+   
+    
 </body>
 </html>

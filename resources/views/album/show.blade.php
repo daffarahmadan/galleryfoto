@@ -1,7 +1,8 @@
-@extends('dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 <div class="m-3">
+    <h5 class="mb-3">Foto</h5>
     <!-- Tombol untuk menambahkan foto baru -->
     <a href="{{ route('foto.create') }}" class="btn btn-primary mb-4">+</a>
     
@@ -44,22 +45,7 @@
                     <div class="modal-body">
                         <!-- Tampilkan gambar -->
                         <img id="image-{{ $foto->id }}" src="{{ Storage::url($foto->lokasifile) }}" class="w-100 rounded" alt="{{ $foto->judul }}">
-                        
-                        <!-- Form untuk menambahkan komentar baru -->
-                        <form action="{{ route('komentarfoto.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="fotoid" value="{{ $foto->id }}">
-                            <div class="mb-3">
-                                <label for="isikomentar" class="form-label">Komentar:</label>
-                                <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
-                                <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Kirim Komentar</button>
-                        </form>
-                        
+
                         <!-- Daftar komentar yang telah disimpan -->
                         <div class="mt-3">
                             @foreach ($foto->komentarfoto as $komentar)
@@ -78,8 +64,6 @@
                                                     ...
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $komentar->id }}">
-                                                    <!-- Tautan untuk mengedit komentar -->
-                                                    <a class="dropdown-item" href="{{ route('komentarfoto.edit', $komentar->id) }}">Edit</a>
                                                     <!-- Form untuk menghapus komentar -->
                                                     <form action="{{ route('komentarfoto.destroy', $komentar->id) }}" method="POST">
                                                         @csrf
@@ -93,6 +77,23 @@
                                 </div>
                             @endforeach
                         </div>
+                        
+                        <!-- Form untuk menambahkan komentar baru -->
+                        <form action="{{ route('komentarfoto.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="fotoid" value="{{ $foto->id }}">
+                            <div class="mb-3">
+                                <label for="isikomentar" class="form-label">Komentar:</label>
+                                <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
+                                <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                        </form>
+                        
+                        
                         
                         <!-- Pesan konfirmasi setelah mengirim komentar -->
                         @if(session('success'))

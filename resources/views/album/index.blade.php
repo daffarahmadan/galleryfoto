@@ -1,12 +1,14 @@
-@extends('dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 <div class="m-3">
+    <h5 class="mb-3">Album</h5>
+    <!-- Tombol untuk menambahkan album baru -->
     <a href="{{ route('album.create') }}" class="btn btn-primary mb-4">+</a>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     @forelse ($album as $index => $albums)
     <div class="col">
-        <div class="bg-white rounded-lg overflow-hidden shadow-md border"> <!-- Menambahkan class border -->
+        <div class="bg-white rounded-lg overflow-hidden shadow-md border"> 
             @if($albums->foto->isNotEmpty())
             <a href="{{ route('album.show', $albums->id) }}"> <!-- Tautkan ke tampilan album -->
                 @foreach($albums->foto as $foto)

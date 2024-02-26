@@ -56,29 +56,36 @@ class AlbumController extends Controller
 
     public function edit($id)
     {
+        // Temukan album berdasarkan ID yang diberikan
         $album = Album::findOrFail($id);
+        
+        // Kembalikan view edit dengan data album yang ditemukan
         return view('album.edit', compact('album'));
     }
-
-    public function update(Request $request, $id)
+    
+    public function update(Request $request, $id) // tambahkan $id sebagai parameter
     {
+        // Validasi data yang dikirim dari form
         $request->validate([
             'namaalbum' => 'required',
             'deskripsi' => 'required',
             'tanggaldibuat' => 'required',
             'userid' => 'required|integer',
         ]);
-
+    
+        // Temukan album berdasarkan ID yang diberikan
         $album = Album::findOrFail($id);
+    
+        // Update data album dengan data yang dikirimkan dari form
         $album->update([
             'namaalbum'     => $request->namaalbum,
             'deskripsi'     => $request->deskripsi,
-            'tanggaldibuat'     => $request->tanggaldibuat,
-            'userid'     => $request->userid,
+            'tanggaldibuat' => $request->tanggaldibuat,
+            'userid'        => $request->userid,
         ]);
-
-        return redirect()->route('album.index')
-            ->with('success', 'Album berhasil diubah!');
+    
+        // Redirect ke halaman index album dengan pesan sukses
+        return redirect()->route('album.index')->with('success', 'Album berhasil diubah!');
     }
 
     public function destroy($id)

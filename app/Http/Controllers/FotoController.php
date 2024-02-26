@@ -16,14 +16,21 @@ class FotoController extends Controller
         return view('home', compact('foto'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->get('search');
+        $foto = Foto::where('judul', 'like', '%' . $query . '%')->get();
+        return view('home', compact('foto'));
+    }
    
     public function create()
     {
-        $album = Album::all(); // Mengambil semua album dari database
+       // Mendapatkan semua album pengguna yang sedang masuk
+        $userId = Auth::id();
+        $album = Album::where('userid', $userId)->get();
+
         return view('foto.create', compact('album'));
     }
-
-   // methods lain
 
     public function store(Request $request)
     {

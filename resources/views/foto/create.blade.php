@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 <div class="py-12">
@@ -38,8 +38,8 @@
                 <label for="albumid" class="form-label">Album</label>
                 <select class="form-select" id="albumid" name="albumid" required>
                     <option value="">Pilih Album</option>
-                    @foreach($album as $alb)
-                        <option value="{{ $alb->id }}">{{ $alb->namaalbum }}</option>
+                    @foreach($album as $albums)
+                        <option value="{{ $albums->id }}">{{ $albums->namaalbum }}</option>
                     @endforeach
                 </select>
             </div>
