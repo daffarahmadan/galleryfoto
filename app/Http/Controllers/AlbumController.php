@@ -68,7 +68,7 @@ class AlbumController extends Controller
         $request->validate([
             'namaalbum' => 'required',
             'deskripsi' => 'required',
-            'tanggaldibuat' => 'required',
+            
            
         ]);
 
@@ -79,7 +79,7 @@ class AlbumController extends Controller
         $album->update([
             'namaalbum'     => $request->namaalbum,
             'deskripsi'     => $request->deskripsi,
-            'tanggaldibuat' => $request->tanggaldibuat,
+            'tanggaldibuat' => Carbon::now(),
            
         ]);
 

@@ -59,7 +59,7 @@ class KomentarfotoController extends Controller
         $komentarfoto = Komentarfoto::findOrFail($id);
         $komentarfoto->update([
             'isikomentar' => $request->isikomentar,
-            'tanggalkomentar' => $request->tanggalkomentar,
+            'tanggalkomentar' => Carbon::now(),
         ]);
     
         return redirect()->back()->with('success', 'Komentar berhasil diubah!');

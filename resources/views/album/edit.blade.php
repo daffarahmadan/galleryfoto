@@ -11,10 +11,6 @@
           <input type="text" name="namaalbum" class="form-control" id="namaalbum" placeholder="Nama Album" value="{{ $album->namaalbum }}">
         </div>
         <div class="mb-3">
-          <label for="tanggaldibuat" class="form-label">Tanggal</label>
-          <input type="date" name="tanggaldibuat" class="form-control" id="tanggaldibuat" value="{{ $album->tanggaldibuat }}">
-        </div>
-        <div class="mb-3">
           <label for="deskripsi" class="form-label">Deskripsi</label>
           <textarea class="form-control" name="deskripsi" id="deskripsi" rows="5">{{ $album->deskripsi }}</textarea>
         </div>
