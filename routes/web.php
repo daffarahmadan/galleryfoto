@@ -33,6 +33,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::resource('album', AlbumController::class);
 Route::get('/albums/{id}', [AlbumController::class, 'show'])->name('album.show');
+Route::put('/album/{id}/edit', [AlbumController::class, 'update'])->name('album.update');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -41,13 +42,13 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/komentarfoto/create/{fotoId}', [KomentarfotoController::class, 'create'])->name('komentarfoto.create');
 Route::resource('komentarfoto', KomentarfotoController::class);
 Route::post('/komentarfoto/store', [KomentarfotoController::class, 'store'])->name('komentarfoto.store');
-Route::get('/komentarfoto/{id}/edit', [KomentarfotoController::class, 'edit'])->name('komentarfoto.edit');
-Route::put('/komentar/{komen:id}/edit', [KomentarfotoController::class, 'update'])->name('komentarfoto.update');
+Route::put('/komentarfoto/{id}/edit', [KomentarfotoController::class, 'update'])->name('komentarfoto.update');
 
 Route::resource('foto', FotoController::class);
 Route::get('/home', [FotoController::class, 'index'])->name('home');
-Route::get('/foto/search', [FotoController::class, 'search'])->name('foto.search');
+
+
 
 Route::resource('likefoto', LikefotoController::class);
 
-Route::post('/album/{id}/toggle-like', [AlbumController::class, 'toggleLike'])->name('album.toggle-like');
+// Route::post('/album/{id}/toggle-like', [AlbumController::class, 'toggleLike'])->name('album.toggle-like');

@@ -1,6 +1,6 @@
-@php
+<!-- @php
     $album = Auth::user()->album; // Mengambil album yang terkait dengan pengguna yang sedang login
-@endphp
+@endphp -->
 
 <!DOCTYPE html>
 <html lang="en">

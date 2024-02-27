@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Komentarfoto;
 use App\Models\Foto;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class KomentarfotoController extends Controller
@@ -28,7 +29,6 @@ class KomentarfotoController extends Controller
         $request->validate([
             'fotoid' => 'required|exists:foto,id', 
             'isikomentar' => 'required',
-            'tanggalkomentar' => 'required',
         ]);
     
         // Simpan komentar ke dalam database
@@ -36,7 +36,7 @@ class KomentarfotoController extends Controller
             'fotoid' => $request->fotoid,
             'userid' => Auth::id(), // Perbaiki penulisan variabel menjadi Auth::id()
             'isikomentar' => $request->isikomentar,
-            'tanggalkomentar' => $request->tanggalkomentar,
+            'tanggalkomentar' => Carbon::now(),
         ]);
     
         // Redirect ke halaman sebelumnya

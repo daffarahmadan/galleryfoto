@@ -21,6 +21,11 @@
         transform: scale(1.1); /* Ubah skala gambar */
         transition: transform 0.3s ease; /* Tambahkan transisi */
     }
+    .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
 </style>
 </head>
 <body>
@@ -154,12 +159,9 @@
                                         <label for="isikomentar" class="form-label">Komentar:</label>
                                         <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
-                                        <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
-                                    </div>
                                     <button type="submit" class="btn btn-primary">Kirim Komentar</button>
                                 </form>
+                        
 
                                 <!-- Pesan konfirmasi setelah mengirim komentar -->
                                 @if(session('success'))
@@ -176,7 +178,7 @@
         </div>
     </div>
 
-    <footer class="footer py-3 mt-auto">
+    <footer class="footer py-3 mt-auto footer-light bg-light">
         <div class="container text-center">
             <span class="text-muted">DREAMLINES Company</span>
         </div>

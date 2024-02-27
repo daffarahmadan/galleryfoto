@@ -86,10 +86,6 @@
                                 <label for="isikomentar" class="form-label">Komentar:</label>
                                 <textarea class="form-control" id="isikomentar" name="isikomentar" rows="4" required></textarea>
                             </div>
-                            <div class="mb-3">
-                                <label for="tanggalkomentar" class="form-label">Tanggal Komentar:</label>
-                                <input type="date" class="form-control" id="tanggalkomentar" name="tanggalkomentar" required>
-                            </div>
                             <button type="submit" class="btn btn-primary">Kirim Komentar</button>
                         </form>
                         

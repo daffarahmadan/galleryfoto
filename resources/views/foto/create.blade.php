@@ -27,10 +27,6 @@
                 <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <label for="tanggalunggah" class="form-label">Tanggal Unggah</label>
-                <input type="date" class="form-control" id="tanggalunggah" name="tanggalunggah" required>
-            </div>
-            <div class="mb-3">
                 <label for="lokasifile" class="form-label">Pilih File</label>
                 <input type="file" class="form-control" id="lokasifile" name="lokasifile" required>
             </div>

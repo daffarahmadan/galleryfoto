@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +35,9 @@ class AlbumController extends Controller
     {
         $request->validate([
             'namaalbum'=>'required',
-            'tanggaldibuat'=>'required',
             'deskripsi'=>'required'
         ],[
             'namaalbum.required'=>'Nama Album harus diisi!',
-            'tanggadibuat.required'=>'Nama Album harus diisi!',
             'deskripsi.required'=> 'Deskripsi harus diisi'
         ]);
 
@@ -46,7 +45,7 @@ class AlbumController extends Controller
 
         Album::create([
             'namaalbum'=> $request->namaalbum,
-            'tanggaldibuat'=> $request->tanggaldibuat,
+            'tanggaldibuat'=> Carbon::now(),
             'deskripsi'=> $request->deskripsi,
             'userid'=> $userId
         ]);
@@ -62,28 +61,28 @@ class AlbumController extends Controller
         // Kembalikan view edit dengan data album yang ditemukan
         return view('album.edit', compact('album'));
     }
-    
-    public function update(Request $request, $id) // tambahkan $id sebagai parameter
+
+    public function update(Request $request, $id) 
     {
         // Validasi data yang dikirim dari form
         $request->validate([
             'namaalbum' => 'required',
             'deskripsi' => 'required',
             'tanggaldibuat' => 'required',
-            'userid' => 'required|integer',
+           
         ]);
-    
+
         // Temukan album berdasarkan ID yang diberikan
         $album = Album::findOrFail($id);
-    
+
         // Update data album dengan data yang dikirimkan dari form
         $album->update([
             'namaalbum'     => $request->namaalbum,
             'deskripsi'     => $request->deskripsi,
             'tanggaldibuat' => $request->tanggaldibuat,
-            'userid'        => $request->userid,
+           
         ]);
-    
+
         // Redirect ke halaman index album dengan pesan sukses
         return redirect()->route('album.index')->with('success', 'Album berhasil diubah!');
     }

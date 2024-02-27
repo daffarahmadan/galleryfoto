@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Foto;
+use Carbon\Carbon;
 use App\Models\Album;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,13 +17,6 @@ class FotoController extends Controller
         return view('home', compact('foto'));
     }
 
-    public function search(Request $request)
-    {
-        $query = $request->get('search');
-        $foto = Foto::where('judul', 'like', '%' . $query . '%')->get();
-        return view('home', compact('foto'));
-    }
-   
     public function create()
     {
        // Mendapatkan semua album pengguna yang sedang masuk
@@ -37,7 +31,6 @@ class FotoController extends Controller
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
-            'tanggalunggah' => 'required',
             'lokasifile' => 'required|image', // Pastikan file yang diunggah adalah gambar
         ]);
 
@@ -54,52 +47,13 @@ class FotoController extends Controller
         $foto = Foto::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'tanggalunggah' => $request->tanggalunggah,
+            'tanggalunggah' => Carbon::now(),
             'lokasifile' => $lokasiFile, // Simpan lokasi file di database
             'albumid' => $albumId, // Gunakan ID album yang sesuai
             'userid' => $userId, // Gunakan ID pengguna yang sedang masuk
         ]);
 
         return redirect()->route('album.show', $albumId)->with('success', 'Foto berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
-        $foto = Foto::findOrFail($id);
-        return view('foto.edit', compact('foto'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'tanggalunggah' => 'required',
-            'lokasifile' => 'required', // Pastikan file yang diunggah adalah gambar
-            'albumid' => 'required',
-            'userid' => 'required|integer',
-        ]);
-
-        $foto = Foto::findOrFail($id);
-
-        // Jika ada file gambar yang diunggah, simpan di penyimpanan dan perbarui lokasi file di database
-        if ($request->hasFile('lokasifile')) {
-            $lokasiFile = $request->file('lokasifile')->store('public/foto');
-            $foto->update([
-                'lokasifile' => $lokasiFile,
-            ]);
-        }
-
-        $foto->update([
-            'judul'     => $request->judul,
-            'deskripsi'     => $request->deskripsi,
-            'tanggalunggah'     => $request->tanggalunggah,
-            'albumid'     => $request->albumid,
-            'userid'     => $request->userid,
-        ]);
-
-        return redirect()->route('foto.index')
-            ->with('success', 'Foto berhasil diubah!');
     }
 
     public function destroy(Request $request, $id)

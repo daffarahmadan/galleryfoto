@@ -11,10 +11,6 @@
           <input type="text" name="namaalbum" class="form-control" id="inputNamaAlbum" placeholder="Nama Album">
         </div>
         <div class="mb-3">
-          <label for="inputTanggal" class="form-label">Tanggal</label>
-          <input type="date" name="tanggaldibuat" class="form-control" id="inputTanggal">
-        </div>
-        <div class="mb-3">
           <label for="inputDeskripsi" class="form-label">Deskripsi</label>
           <textarea class="form-control" name="deskripsi" id="inputDeskripsi" rows="5"></textarea>
         </div>
