@@ -7,6 +7,8 @@ use App\Http\Controllers\KomentarfotoController;
 use App\Http\Controllers\LikefotoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,6 +39,9 @@ Route::put('/album/{id}/edit', [AlbumController::class, 'update'])->name('album.
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::get('/komentarfoto/create/{fotoId}', [KomentarfotoController::class, 'create'])->name('komentarfoto.create');

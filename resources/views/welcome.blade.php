@@ -1,7 +1,9 @@
-<!-- @php
-    $album = Auth::user()->album; // Mengambil album yang terkait dengan pengguna yang sedang login
-@endphp -->
 
+@auth
+    @php
+        $album = Auth::user()->album ?? null; // Mengambil album yang terkait dengan pengguna yang sedang login
+    @endphp
+@endauth
 <!DOCTYPE html>
 <html lang="en">
 <head>

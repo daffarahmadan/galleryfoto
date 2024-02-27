@@ -59,8 +59,13 @@ class FotoController extends Controller
     public function destroy(Request $request, $id)
     {
         $foto = Foto::findOrFail($id);
+
+        Storage::delete($foto->lokasifile);
+        // $path = str_replace('storage', 'public', $foto->lokasifile);
+        // unlink(storage_path('app/' . $path));
+
         $foto->delete();
-        return redirect()->back()->with(['success' => '']);
+        return redirect()->back()->with(['success' => 'Foto berhasil dihapus']);
         // // Periksa apakah foto milik album yang sesuai
         // if ($foto->albumid == $request->albumid && $foto->userid == Auth::id()) {
         //     // Hapus file dari penyimpanan sebelum menghapus data dari database

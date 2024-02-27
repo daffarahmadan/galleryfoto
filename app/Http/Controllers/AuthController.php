@@ -13,6 +13,12 @@ class AuthController extends Controller
     {
         return $this->hasMany(Album::class, 'userid'); // Sesuaikan kunci luar di sini
     }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('profile', compact('user'));
+    }
     
     public function loginIndex() {
         return view("Auth.login");

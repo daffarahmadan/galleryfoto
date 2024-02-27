@@ -178,11 +178,7 @@
         </div>
     </div>
 
-    <footer class="footer py-3 mt-auto footer-light bg-light">
-        <div class="container text-center">
-            <span class="text-muted">DREAMLINES Company</span>
-        </div>
-    </footer>
+    
 
     <!-- Bootstrap core JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
