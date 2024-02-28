@@ -98,7 +98,8 @@
                             <div class="modal-header">
                                 <!-- username user -->
                                 @if($foto->user && $foto->user->username)
-                                    <h5 class="card-text">{{ $foto->user->username }}</h5>
+                                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="img-fluid rounded-circle" style="width: 50px; height: 50px;" alt="Profile Picture">
+                                    <h5 class="card-text ml-2">{{ $foto->user->username }}</h5>
                                 @endif
                                 <!-- Tombol untuk menutup modal -->
                                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
@@ -108,7 +109,8 @@
                                 <img id="image-{{ $foto->id }}" src="{{ Storage::url($foto->lokasifile) }}" class="w-100 rounded" alt="{{ $foto->judul }}">
                                 <!-- Judul modal -->
                                 <h5 class="modal-title mt-4" id="modal{{ $foto->id }}Label">{{ $foto->judul }}</h5>
-                                <!-- Form untuk menambahkan like -->
+                                <br>
+                                <!-- Form untuk menambahkan like --> 
                                 <form action="{{ route('likefoto.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="foto_id" value="{{ $foto->id }}">
@@ -119,6 +121,7 @@
                                     </button>
                                 </form>
                                  
+
                                 <!-- Daftar komentar yang telah disimpan -->
                                 <div class="mt-3">
                                     @foreach ($foto->komentarfoto as $komentar)
@@ -161,7 +164,6 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary">Kirim Komentar</button>
                                 </form>
-                        
 
                                 <!-- Pesan konfirmasi setelah mengirim komentar -->
                                 @if(session('success'))
@@ -169,7 +171,6 @@
                                     {{ session('success') }}
                                 </div>
                                 @endif
-                                
                             </div>
                         </div>
                     </div>
@@ -189,7 +190,25 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-   
+    <<script>
+    $(document).ready(function() {
+        // Mengubah ikon like saat tombol diklik
+        $('.btn-like').click(function() {
+            // Toggle class 'liked' pada tombol
+            $(this).toggleClass('liked');
+
+            // Mengubah ikon berdasarkan keberadaan class 'liked'
+            if ($(this).hasClass('liked')) {
+                // Jika tombol memiliki class 'liked', ubah ikon menjadi hati terisi
+                $(this).html('<ion-icon name="heart" style="font-size: 24px;"></ion-icon>');
+            } else {
+                // Jika tidak, kembalikan ikon ke hati kosong
+                $(this).html('<ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>');
+            }
+        });
+    });
+</script>
+
     
 </body>
 </html>

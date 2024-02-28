@@ -1,9 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,15 +11,13 @@
     <title>Gallery</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{asset('sb-admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="{{ asset('sb-admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Custom styles for this template-->
-    <link href="{{asset('sb-admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
-   
+    <link href="{{ asset('sb-admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -35,7 +31,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    
+
                 </div>
                 <div class="sidebar-brand-text mx-3">My Gallery foto</div>
             </a>
@@ -43,7 +39,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           <!-- Nav Item - Home -->
+            <!-- Nav Item - Home -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('home') }}">
                     <ion-icon name="home-outline" class="mr-2"></ion-icon>
@@ -94,8 +90,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
@@ -106,7 +100,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}">
+                                    src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -160,7 +154,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-        <!-- Logout Modal-->
+    <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -183,24 +177,52 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('sb-admin/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('sb-admin/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('sb-admin/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{asset('sb-admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="{{ asset('sb-admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{asset('sb-admin/js/sb-admin-2.min.js')}}"></script>
+    <script src="{{ asset('sb-admin/js/sb-admin-2.min.js') }}"></script>
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('sb-admin/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('sb-admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('sb-admin/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Bootstrap core JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-    <!-- modal album.show -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- template icon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <<script>
+    $(document).ready(function() {
+        // Mengubah ikon like saat tombol diklik
+        $('.btn-like').click(function() {
+            // Toggle class 'liked' pada tombol
+            $(this).toggleClass('liked');
+
+            // Mengubah ikon berdasarkan keberadaan class 'liked'
+            if ($(this).hasClass('liked')) {
+                // Jika tombol memiliki class 'liked', ubah ikon menjadi hati terisi
+                $(this).html('<ion-icon name="heart" style="font-size: 24px;"></ion-icon>');
+            } else {
+                // Jika tidak, kembalikan ikon ke hati kosong
+                $(this).html('<ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>');
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
