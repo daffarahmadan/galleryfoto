@@ -13,9 +13,15 @@
 
                 <div class="card-body">
                     <!-- Display Profile Picture -->
-<div class="text-center mb-4">
-    <img  src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="img-fluid rounded-circle" style="width: 150px; height: 150px;" alt="Profile Picture">
-</div>
+                    <div class="text-center mb-4">
+                        <img  src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="img-fluid rounded-circle" style="width: 150px; height: 150px;" alt="Profile Picture">
+                    </div>
+                    <!-- Alert untuk menampilkan pesan setelah profil diperbarui -->
+                    @if(session('success'))
+                    <div class="alert alert-success mt-3" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
 
                     <!-- Change Profile Picture Form -->
                     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
