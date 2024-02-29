@@ -20,8 +20,8 @@
                         <input type="hidden" name="foto_id" value="{{ $foto->id }}">
                         <!-- Tombol Like -->
                         <button type="submit" class="btn btn-transparent btn-like btn-lg">
-                            <ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>
-                            <p class="card-text">{{ $foto->likeCount() }}</p>
+                            <ion-icon name="heart-outline" style="font-size: 20px;"></ion-icon>
+                            <p class="card-text" style="font-size: 10px;">{{ $foto->likeCount() }}</p>
                         </button>
                     </form>
                     <!-- Tombol Komentar -->

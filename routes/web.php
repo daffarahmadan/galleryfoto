@@ -8,6 +8,7 @@ use App\Http\Controllers\LikefotoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AlbumSubmisionController;
 
 
 Route::get('/', function () {
@@ -51,9 +52,9 @@ Route::put('/komentarfoto/{id}/edit', [KomentarfotoController::class, 'update'])
 
 Route::resource('foto', FotoController::class);
 Route::get('/home', [FotoController::class, 'index'])->name('home');
-
-
+// Route::get('/search/foto', [FotoController::class, 'search'])->name('search.foto');
 
 Route::resource('likefoto', LikefotoController::class);
 
+Route::post('/submision/store', [AlbumSubmisionController::class, 'store'])->name('submision.store');
 // Route::post('/album/{id}/toggle-like', [AlbumController::class, 'toggleLike'])->name('album.toggle-like');

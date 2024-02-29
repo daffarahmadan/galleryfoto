@@ -19,7 +19,7 @@
     }
     .card:hover {
         transform: scale(1.1); /* Ubah skala gambar */
-        transition: transform 0.3s ease; /* Tambahkan transisi */
+        transition: transform 0.5s ease; /* Tambahkan transisi */
     }
     .footer {
             position: fixed;
@@ -42,7 +42,18 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
+                    @if (Gate::allows('admin'))
                         <a class="nav-link" href="{{ route('album.index') }}">Album</a>
+                    @endif
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Profile
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('profile') }}">View Profile</a>
+                            <!-- Tambahkan link untuk edit profile atau yang lainnya jika diperlukan -->
+                        </div>
                     </li>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
@@ -98,8 +109,8 @@
                             <div class="modal-header">
                                 <!-- username user -->
                                 @if($foto->user && $foto->user->username)
-                                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="img-fluid rounded-circle" style="width: 50px; height: 50px;" alt="Profile Picture">
-                                    <h5 class="card-text ml-2">{{ $foto->user->username }}</h5>
+                                    <img src="{{ $foto->user->avatar ? asset('storage/' . $foto->user->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="img-fluid rounded-circle mr-2" style="width: 50px; height: 50px;" alt="Profile Picture">
+                                    <h5 class="card-text">{{ $foto->user->username }}</h5>
                                 @endif
                                 <!-- Tombol untuk menutup modal -->
                                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
@@ -110,50 +121,50 @@
                                 <!-- Judul modal -->
                                 <h5 class="modal-title mt-4" id="modal{{ $foto->id }}Label">{{ $foto->judul }}</h5>
                                 <br>
-                                <!-- Form untuk menambahkan like --> 
+                                <!-- Tombol Like -->
                                 <form action="{{ route('likefoto.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="foto_id" value="{{ $foto->id }}">
-                                    <!-- Tombol Like -->
-                                    <button type="submit" class="btn btn-transparent btn-like btn-lg">
+                                    <button type="submit" class="btn btn-transparent btn-like btn-lg mb-3">
                                         <ion-icon name="heart-outline" style="font-size: 24px;"></ion-icon>
                                         <p class="card-text">{{ $foto->likeCount() }}</p>
                                     </button>
                                 </form>
-                                 
 
                                 <!-- Daftar komentar yang telah disimpan -->
-                                <div class="mt-3">
+                                <div class="mb-3">
                                     @foreach ($foto->komentarfoto as $komentar)
                                         <!-- Tampilkan komentar -->
                                         <div class="comment-container border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                <!-- Foto profil -->
+                                                <img src="{{ $komentar->user->avatar ? asset('storage/' . $komentar->user->avatar) : asset('sb-admin/img/undraw_profile.svg') }}" class="rounded-circle mr-3" style="width: 50px; height: 50px;" alt="Profile Picture">
+                                                <!-- Info komentar -->
                                                 <div>
                                                     <strong>{{ $komentar->user->username }}</strong>
                                                     <p>{{ $komentar->isikomentar }}</p>
-                                                    <small>{{ \Carbon\Carbon::parse($komentar->tanggalkomentar)->format('d F Y H:i') }}</small>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <!-- Tombol dropdown untuk edit dan hapus komentar -->
-                                                    @if($komentar->userid == Auth::user()->id)
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $komentar->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        ...
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $komentar->id }}">
-                                                        <!-- Form untuk menghapus komentar -->
-                                                        <form action="{{ route('komentarfoto.destroy', $komentar->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                    @endif
+                                                    <small class="text-muted">{{ \Carbon\Carbon::parse($komentar->tanggalkomentar)->format('d F Y H:i') }}</small>
                                                 </div>
                                             </div>
+                                            <!-- Dropdown untuk hapus komentar -->
+                                            @if($komentar->userid == Auth::user()->id)
+                                            <div class="dropdown mt-2">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $komentar->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $komentar->id }}">
+                                                    <!-- Form untuk menghapus komentar -->
+                                                    <form action="{{ route('komentarfoto.destroy', $komentar->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">Hapus</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
-
                                 <!-- Form untuk menambahkan komentar baru -->
                                 <form action="{{ route('komentarfoto.store') }}" method="POST">
                                     @csrf
@@ -190,7 +201,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <<script>
+    <script>
     $(document).ready(function() {
         // Mengubah ikon like saat tombol diklik
         $('.btn-like').click(function() {

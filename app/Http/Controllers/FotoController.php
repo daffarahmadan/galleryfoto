@@ -48,9 +48,9 @@ class FotoController extends Controller
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'tanggalunggah' => Carbon::now(),
-            'lokasifile' => $lokasiFile, // Simpan lokasi file di database
-            'albumid' => $albumId, // Gunakan ID album yang sesuai
-            'userid' => $userId, // Gunakan ID pengguna yang sedang masuk
+            'lokasifile' => $lokasiFile, 
+            'albumid' => $albumId, 
+            'userid' => $userId, 
         ]);
 
         return redirect()->route('album.show', $albumId)->with('success', 'Foto berhasil ditambahkan.');
@@ -66,15 +66,5 @@ class FotoController extends Controller
 
         $foto->delete();
         return redirect()->back()->with(['success' => 'Foto berhasil dihapus']);
-        // // Periksa apakah foto milik album yang sesuai
-        // if ($foto->albumid == $request->albumid && $foto->userid == Auth::id()) {
-        //     // Hapus file dari penyimpanan sebelum menghapus data dari database
-        //     Storage::delete($foto->lokasifile);
-
-        //     $foto->delete();
-
-        // } else {
-        //     return redirect()->route('foto.index')->with(['error' => 'Anda tidak memiliki izin untuk menghapus foto ini.']);
-        // }
     }
 }

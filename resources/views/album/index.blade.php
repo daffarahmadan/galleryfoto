@@ -4,7 +4,36 @@
 <div class="m-3">
     <h5 class="mb-3">Album</h5>
     <!-- Tombol untuk menambahkan album baru -->
+    @if (Gate::allows('admin'))
     <a href="{{ route('album.create') }}" class="btn btn-primary mb-4">+</a>
+    @endif
+
+     <!-- Formulir Pengajuan Album dan Foto (Hanya Ditampilkan untuk User Biasa) -->
+    @if (!Gate::allows('admin'))
+        <form method="POST" action="{{ route('submision.store') }}" enctype="multipart/form-data">
+            @csrf
+
+            <!-- Judul Album -->
+            <div class="mb-3">
+                <label for="namaalbum" class="form-label">Judul Album</label>
+                <input type="text" class="form-control" id="namaalbum" name="namaalbum" required>
+            </div>
+
+            <!-- Deskripsi -->
+            <div class="mb-3">
+                <label for="deskripsi" class="form-label">Deskripsi</label>
+                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+            </div>
+
+            <!-- Unggah Foto -->
+            <div class="mb-3">
+                <label for="foto" class="form-label">Unggah Foto</label>
+                <input type="file" class="form-control" id="foto" name="foto" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajukan</button>
+        </form>
+    @endif
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     @forelse ($album as $index => $albums)
     <div class="col">

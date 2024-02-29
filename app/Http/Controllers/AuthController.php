@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-    public function albums()
+    public function album()
     {
         return $this->hasMany(Album::class, 'userid'); // Sesuaikan kunci luar di sini
     }
@@ -66,7 +66,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('album.index')->with('success','Login sukses');
+            return redirect()->route('home')->with('success','Login sukses');
         }
 
         return back()->withErrors([

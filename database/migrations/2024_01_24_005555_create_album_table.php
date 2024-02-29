@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('namaalbum');
             $table->text('deskripsi');
             $table->date('tanggaldibuat');
-            $table->foreignId('userid')->nullable();
+            $table->foreignId('userid')->nullable()->constrained('users'); // Tambahkan relasi dengan tabel pengguna
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

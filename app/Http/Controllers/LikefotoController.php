@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LikeFoto;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class LikefotoController extends Controller
@@ -29,7 +30,7 @@ class LikefotoController extends Controller
         LikeFoto::create([
             'fotoid' => $request->foto_id,
             'userid' => Auth::id(),
-            'tanggallike' => now(), // Set 'tanggallike' to the current timestamp
+            'tanggallike' => Carbon::now(), // Set 'tanggallike' to the current timestamp
         ]);
 
         return back()->with('success', 'Foto telah dilike.');
